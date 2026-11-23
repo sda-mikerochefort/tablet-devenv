@@ -7,4 +7,4 @@
 cd "${KDIR:-/src/linux}" || exit 1
 KVM=$([ -e /dev/kvm ] || echo --disable-kvm)
 exec vng $KVM --rwdir=/src/_build --rwdir=/tmp --memory 4G --cpus "$(nproc)" -- \
-  "mount -t bpf bpf /sys/fs/bpf 2>/dev/null; export PATH=/opt/tablet/bin:\$PATH LD_LIBRARY_PATH=/opt/tablet/lib64 PYTHONPATH=/src/hid-tools:\$(ls -d /opt/tablet/lib*/python3*/site-packages 2>/dev/null | tr '\n' :); $*"
+  "mount -t bpf bpf /sys/fs/bpf 2>/dev/null; export PATH=/opt/tablet/bin:\$PATH PYTHONPATH=/src/hid-tools:\$(ls -d /opt/tablet/lib*/python3*/site-packages 2>/dev/null | tr '\n' :); $*"

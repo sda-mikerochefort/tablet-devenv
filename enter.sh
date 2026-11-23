@@ -5,4 +5,4 @@ docker info >/dev/null 2>&1 || { (nohup dockerd >/var/log/dockerd.log 2>&1 &); s
 exec docker run --rm -i $([ -t 0 ] && echo -t) --privileged ${KDIR:+-e KDIR=$KDIR} \
   -v /home/user:/src -v tablet-prefix:/opt/tablet -v tablet-cargo:/root/.cargo \
   -v tablet-ccache:/root/.cache/ccache \
-  -w /src tablet-dev:f45 "${@:-bash}"
+  -w /src tablet-dev:f45 sh -c 'ldconfig; exec "$@"' sh "${@:-bash}"

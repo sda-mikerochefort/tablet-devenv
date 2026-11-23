@@ -53,8 +53,13 @@ RUN dnf -y install --skip-unavailable \
 RUN dnf -y install clang21 llvm21 && dnf clean all
 COPY bpf-clang21.ini /etc/meson/bpf-clang21.ini
 
+# Find /opt/tablet libraries through ld.so.conf rather than LD_LIBRARY_PATH:
+# LD_LIBRARY_PATH would override the RUNPATH of uninstalled test binaries,
+# so test suites would silently run against the installed copy instead of
+# the build tree. enter.sh runs ldconfig on start (the prefix is a volume).
+RUN echo /opt/tablet/lib64 > /etc/ld.so.conf.d/opt-tablet.conf
+
 ENV PATH=/root/.cargo/bin:/usr/local/bin:$PATH \
     PKG_CONFIG_PATH=/opt/tablet/lib64/pkgconfig:/opt/tablet/share/pkgconfig \
-    LD_LIBRARY_PATH=/opt/tablet/lib64 \
     XDG_DATA_DIRS=/opt/tablet/share:/usr/share
 WORKDIR /src

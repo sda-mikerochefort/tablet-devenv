@@ -27,7 +27,7 @@ branch is pushed to `origin` (github.com/sda-mikerochefort/<repo>).
 ./tablet-devenv/enter.sh ./tablet-devenv/build-userspace.sh   # build all userspace into /opt/tablet
 ```
 
-* Install prefix: `/opt/tablet`, kept in the docker volume `tablet-prefix`. `PKG_CONFIG_PATH`, `LD_LIBRARY_PATH` and `XDG_DATA_DIRS` point at it, so libinput builds against our libtablet and mutter builds against our libinput and wayland-protocols.
+* Install prefix: `/opt/tablet`, kept in the docker volume `tablet-prefix`. `PKG_CONFIG_PATH` and `XDG_DATA_DIRS` point at it, and `/opt/tablet/lib64` is registered with ldconfig (on container start), so libinput builds against our libtablet and mutter builds against our libinput and wayland-protocols. `LD_LIBRARY_PATH` is deliberately not used: it would make test suites run against the installed libraries instead of the build tree.
 * Build dirs are under `/home/user/_build/<project>`, and logs are in `_build/*.log`.
 * udev-hid-bpf **must** be configured with `--native-file /etc/meson/bpf-clang21.ini`. Fedora 45's clang 23 breaks 5 BPF programs: Gaomon M6, MS Surface Dial, XP-Pen Artist12 3rd, Deco Pro V1, and Deco SE. It emits libc `memcpy` calls and blows the 512-byte BPF stack. Upstream CI pins Fedora 43 (clang 21). The same applies to the kernel's `drivers/hid/bpf/progs` (for example Huion Kamvas Pro 19), so build those with `CLANG=clang-21`. A partial source fix for Deco SE is in `udev-hid-bpf-decose-clang23.patch`. That is worth upstreaming together with fixes for the other four.
 * Kernel (inside the container):
