@@ -1,0 +1,25 @@
+# Huion HS610 (256c:006d), bound by hid-uclogic.
+#
+# Sources: USB layout and interface 1 report descriptor from the
+# tablet-hid-descriptors capture 'Huion HS610/sysinfo.1lDtKRKov2'.
+# Interface 0 originally carries an 18-byte vendor descriptor (88 bits of
+# vendor usage on report ID 8); hid-uclogic replaces it wholesale.
+# String 200 is the HS610 pen-parameter block that hid-uclogic matches
+# byte for byte (touch_ring_model_params_buf) -> pen + frame buttons +
+# touch ring + dial. String 201 is an illustrative firmware ID (the
+# capture predates uclogic exporting it).
+
+device vid=0x256c pid=0x006d bcd=0x0100 usb=0x0200 attrs=0xa0 power=480
+string 1 "HUION"
+string 2 "Huion Tablet"
+string 201 "HUION_T176_190514"
+string-raw 200 13 03 70 c6 00 06 7c 00 ff 1f d8 13 03 0d 10 01 04 3c 3e
+on-read 200 mode raw
+
+interface 0 class=3 subclass=1 protocol=2 ep=0x81 maxpacket=64 interval=2
+rdesc 0 06 00 ff 09 01 a1 01 85 08 75 58 95 01 09 01 81 02 c0
+interface 1 class=3 subclass=1 protocol=2 ep=0x82 maxpacket=16 interval=2
+rdesc 1 05 0d 09 02 a1 01 85 0a 09 20 a1 00 09 42 09 44 09 45 09 3c 15 00 25 01
+rdesc 1 75 01 95 06 81 02 09 32 75 01 95 01 81 02 81 03 05 01 09 30 09 31 55 0d
+rdesc 1 65 33 26 ff 7f 35 00 46 00 08 75 10 95 02 81 02 05 0d 09 30 26 ff 1f 75
+rdesc 1 10 95 01 81 02 09 3d 09 3e 15 81 25 7f 75 08 95 02 81 02 c0 c0

@@ -47,6 +47,21 @@ branch is pushed to `origin` (github.com/sda-mikerochefort/<repo>).
   which the `hid_bpf` attach/detach tests need, and puts `/opt/tablet` on `PATH`. Run all device-level
   tests through it.
 
+## USB device emulation (usb-emu)
+
+`usb-emu/` emulates USB HID tablets with raw-gadget + dummy_hcd inside the VM. That reaches USB-only
+paths uhid can't: hid-uclogic's string-descriptor probing and HID-BPF string-descriptor reads.
+It needs `CONFIG_USB_DUMMY_HCD`/`CONFIG_USB_RAW_GADGET` (in `kernel-tablet.config`). `vm.sh` boots the
+kernel tree in `$KDIR` (default `/src/linux`):
+
+```sh
+KDIR=/src/linux-emu ./tablet-devenv/enter.sh /src/tablet-devenv/vm.sh \
+  "/src/tablet-devenv/usb-emu/run-test.sh /src/tablet-devenv/usb-emu/devices/huion-hs610.desc \
+                                          /src/tablet-devenv/usb-emu/devices/hs610-demo.script"
+```
+
+See `usb-emu/README.md`.
+
 ## Known limitations of this sandbox
 
 * The container itself has no `/dev/kvm`, `/dev/uhid` or `/dev/uinput`, and no loadable modules. Run device tests (libinput, hid-tools, udev-hid-bpf live tests, kernel selftests) through `vm.sh`. Without KVM, that guest runs under TCG emulation.

@@ -1,0 +1,25 @@
+# Replay for huion-hs610.desc. Wait until hid-uclogic has read string 200
+# (which switches the real tablet to report ID 8), then send v2 reports on
+# interface 0. Writes block until the host polls, i.e. until an event node
+# of the device is open.
+wait-mode raw 20000
+# run-test.sh creates this once all event nodes are open
+wait-file /tmp/usb-emu-test/ready 20000
+log pen in proximity, moving
+send 0 08 80 00 10 00 10 00 00 00 00 00 00
+sleep 20
+send 0 08 81 00 20 00 20 20 01 00 00 00 00
+sleep 20
+send 0 08 00 00 00 00 00 00 00 00 00 00 00
+log frame button 1 (pen sub-report 0xe0)
+send 0 08 e0 01 01 01 00 00 00 00 00 00 00
+sleep 20
+send 0 08 e0 01 01 00 00 00 00 00 00 00 00
+log dial (pen sub-report 0xf1)
+send 0 08 f1 01 01 00 01 00 00 00 00 00 00
+sleep 20
+log touch ring position 5, then release (pen sub-report 0xf0, byte 5)
+send 0 08 f0 01 01 00 05 00 00 00 00 00 00
+sleep 20
+send 0 08 f0 01 01 00 00 00 00 00 00 00 00
+sleep 20
