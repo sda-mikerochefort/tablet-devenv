@@ -1,0 +1,24 @@
+# Vendor-mode reports for devices/huion-inspiroy-2m.desc (report ID 8 on
+# interface 0). The tablet only sends these once the host has switched it
+# to vendor mode by reading string descriptor 200.
+wait-mode raw 30000
+wait-file /tmp/usb-emu-test/ready 60000
+# pad button 1 press / release
+send 0 08 e0 01 01 01 00 00 00 00 00 00 00
+sleep 100
+send 0 08 e0 01 01 00 00 00 00 00 00 00 00
+sleep 100
+# dial: one step each direction
+send 0 08 f1 01 01 00 01 00 00 00 00 00 00
+sleep 100
+send 0 08 f1 01 01 00 02 00 00 00 00 00 00
+sleep 100
+# pen: hover, touch with pressure 4096, lift, leave proximity
+send 0 08 80 10 27 88 13 00 00 00 00 00 00
+sleep 100
+send 0 08 81 20 27 90 13 00 10 00 00 00 00
+sleep 100
+send 0 08 80 20 27 90 13 00 00 00 00 00 00
+sleep 100
+send 0 08 00 20 27 90 13 00 00 00 00 00 00
+sleep 200
