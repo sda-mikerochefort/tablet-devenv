@@ -36,6 +36,26 @@ Full logs go to `/tmp/usb-emu-test/` in the guest.
 
 Directly: `usb-emu [-v] <description> [script|-]`. The emulator runs until killed.
 
+### HID-BPF programs that switch the tablet themselves
+
+`huion-bpf-test.sh` loads a Huion HID-BPF program with `udev-hid-bpf` (no
+huion-switcher) and checks that the kernel reads string descriptors 201 and
+200, that `uniq` is set, which nodes remain, and that vendor-mode reports
+produce events:
+
+```sh
+./tablet-devenv/enter.sh /src/tablet-devenv/vm.sh \
+  "/src/tablet-devenv/usb-emu/huion-bpf-test.sh \
+     /src/tablet-devenv/usb-emu/devices/huion-inspiroy-2m.desc \
+     /src/tablet-devenv/usb-emu/devices/inspiroy-2m-vendor.script \
+     /src/_build/uhb-all/src/bpf/0010-Huion__Inspiroy-2-M.bpf.o"
+```
+
+`/src/_build/uhb-all` is a udev-hid-bpf build with `-Dbpfs=testing,stable,userhacks`.
+All interfaces are loaded with a single `udev-hid-bpf add`: a second `add`
+while a program is pinned currently crashes udev-hid-bpf in the VM (seen with
+unmodified programs too).
+
 ## Description format
 
 Line based. `#` starts a comment. Numbers accept `0x` hex.
