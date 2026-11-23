@@ -11,7 +11,7 @@ RUN dnf -y install dnf5-plugins && dnf -y upgrade
 
 # Core toolchain + kernel build / HID-BPF / selftests
 RUN dnf -y install \
-      git git-email b4 patch diffutils make gcc gcc-c++ clang llvm lld \
+      git git-email b4 patch diffutils which make gcc gcc-c++ clang llvm lld \
       bison flex bc perl rsync cpio kmod openssl openssl-devel \
       elfutils-libelf-devel elfutils-devel dwarves ncurses-devel \
       libcap-devel zlib-devel zstd xz pahole \
@@ -27,7 +27,7 @@ RUN dnf -y install \
       python3 python3-pip python3-devel python3-pytest python3-pytest-xdist \
       python3-libevdev python3-pyudev python3-parse python3-click \
       python3-yaml python3-typing-extensions python3-hatchling \
-      python3-gobject python3-dbus python3-black python3-ruff python3-rich python3-pyroute2 \
+      python3-gobject python3-dbus python3-black python3-ruff python3-rich python3-pyroute2 python3-jsonschema \
       systemd-devel libudev-devel libevdev-devel libevdev-utils mtdev-devel \
       check-devel glib2-devel libgudev-devel lua-devel \
       wayland-devel wayland-protocols-devel libxml2 \

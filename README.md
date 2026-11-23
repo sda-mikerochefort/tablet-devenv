@@ -63,3 +63,7 @@ branch is pushed to `origin` (github.com/sda-mikerochefort/<repo>).
 | udev-hid-bpf       | ok (clang21) | in VM: 65 pass, 55 skipped (libtest for `stable/` programs not built by default), 2 fail (`test_helpers::TestIteratorMacros`: "Expected 16 input reports, got 0"), still to investigate |
 | mutter             | ok    | not run (needs a headless session and dbus) |
 | linux v7.4-rc4     | ok    | HID KUnit: hid_input, uclogic core/params/rdesc all ok. selftests `hid_bpf`: 45 pass, 1 skip, 0 fail. `tests/test_{tablet,wacom_generic,multitouch}.py`: 1676 pass, 1065 skip, 5 xfail, 0 fail (in VM, progs built with clang-21) |
+
+## Phase 0 deliverables
+
+See [`phase0/README.md`](phase0/README.md).
