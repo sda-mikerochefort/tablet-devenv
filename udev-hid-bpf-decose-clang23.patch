@@ -1,0 +1,27 @@
+diff --git a/src/bpf/testing/0010-XPPen__DecoSE.bpf.c b/src/bpf/testing/0010-XPPen__DecoSE.bpf.c
+index 02d008e..53fc4ad 100644
+--- a/src/bpf/testing/0010-XPPen__DecoSE.bpf.c
++++ b/src/bpf/testing/0010-XPPen__DecoSE.bpf.c
+@@ -231,9 +231,19 @@ int BPF_PROG(xppen_decose_rdesc_fixup, struct hid_bpf_ctx *hctx)
+ 		 * bytes are kept verbatim; only the wrong tilt range is
+ 		 * corrected, same as for the separate pen interface.
+ 		 */
+-		__builtin_memmove(data + sizeof(fixed_rdesc_pad),
+-				  data + PAD_REPORT_DESCRIPTOR_LENGTH_V2,
+-				  PEN_REPORT_DESCRIPTOR_LENGTH);
++		_Static_assert(sizeof(fixed_rdesc_pad) <= PAD_REPORT_DESCRIPTOR_LENGTH_V2,
++			       "forward copy below requires dst <= src");
++		/* Overlapping move with dst <= src, so a forward copy is
++		 * safe. Avoid __builtin_memmove(): newer clang (>= 23)
++		 * lowers it through a stack temporary and exceeds the
++		 * 512-byte BPF stack limit. The empty asm keeps LLVM's
++		 * loop-idiom pass from turning the loop back into memmove.
++		 */
++		for (int i = 0; i < PEN_REPORT_DESCRIPTOR_LENGTH; i++) {
++			data[sizeof(fixed_rdesc_pad) + i] =
++				data[PAD_REPORT_DESCRIPTOR_LENGTH_V2 + i];
++			asm volatile("" ::: "memory");
++		}
+ 		__builtin_memcpy(data, fixed_rdesc_pad, sizeof(fixed_rdesc_pad));
+ 		fix_pen_tilt(data + sizeof(fixed_rdesc_pad));
+ 		return sizeof(fixed_rdesc_pad) + PEN_REPORT_DESCRIPTOR_LENGTH;
