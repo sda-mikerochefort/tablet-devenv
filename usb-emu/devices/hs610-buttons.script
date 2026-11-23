@@ -1,0 +1,30 @@
+# Press frame buttons 9..13 on huion-hs610.desc one at a time.
+# Frame bitmap starts at byte 4: buttons 1-10 (Tablet Function Keys
+# collection), then buttons 11-20 (Gamepad collection) in the next bits.
+wait-mode raw 20000
+wait-file /tmp/usb-emu-test/ready 20000
+log button 9
+send 0 08 e0 01 01 00 01 00 00 00 00 00 00
+sleep 20
+send 0 08 e0 01 01 00 00 00 00 00 00 00 00
+sleep 20
+log button 10
+send 0 08 e0 01 01 00 02 00 00 00 00 00 00
+sleep 20
+send 0 08 e0 01 01 00 00 00 00 00 00 00 00
+sleep 20
+log button 11
+send 0 08 e0 01 01 00 04 00 00 00 00 00 00
+sleep 20
+send 0 08 e0 01 01 00 00 00 00 00 00 00 00
+sleep 20
+log button 12
+send 0 08 e0 01 01 00 08 00 00 00 00 00 00
+sleep 20
+send 0 08 e0 01 01 00 00 00 00 00 00 00 00
+sleep 20
+log button 13
+send 0 08 e0 01 01 00 10 00 00 00 00 00 00
+sleep 20
+send 0 08 e0 01 01 00 00 00 00 00 00 00 00
+sleep 20
