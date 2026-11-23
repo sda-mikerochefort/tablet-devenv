@@ -55,7 +55,7 @@ It needs `CONFIG_USB_DUMMY_HCD`/`CONFIG_USB_RAW_GADGET` (in `kernel-tablet.confi
 kernel tree in `$KDIR` (default `/src/linux`):
 
 ```sh
-KDIR=/src/linux-emu ./tablet-devenv/enter.sh /src/tablet-devenv/vm.sh \
+./tablet-devenv/enter.sh /src/tablet-devenv/vm.sh \
   "/src/tablet-devenv/usb-emu/run-test.sh /src/tablet-devenv/usb-emu/devices/huion-hs610.desc \
                                           /src/tablet-devenv/usb-emu/devices/hs610-demo.script"
 ```

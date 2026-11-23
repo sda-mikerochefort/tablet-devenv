@@ -18,7 +18,7 @@ Kernel requirements (already in `../kernel-tablet.config`): `CONFIG_USB_GADGET=y
 ```sh
 # in the container; KDIR picks the kernel tree that vm.sh boots
 make -C /src/tablet-devenv/usb-emu
-KDIR=/src/linux-emu /src/tablet-devenv/vm.sh \
+/src/tablet-devenv/vm.sh \
   "/src/tablet-devenv/usb-emu/run-test.sh /src/tablet-devenv/usb-emu/devices/huion-hs610.desc \
                                           /src/tablet-devenv/usb-emu/devices/hs610-demo.script"
 ```

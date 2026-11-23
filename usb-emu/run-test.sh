@@ -1,6 +1,6 @@
 #!/bin/bash
 # End-to-end check of a usb-emu description inside the virtme-ng guest:
-#   KDIR=/src/linux-emu /src/tablet-devenv/vm.sh \
+#   /src/tablet-devenv/vm.sh \
 #       "/src/tablet-devenv/usb-emu/run-test.sh <description> [script]"
 # Needs a kernel with CONFIG_USB_DUMMY_HCD=y and CONFIG_USB_RAW_GADGET=y.
 set -u
